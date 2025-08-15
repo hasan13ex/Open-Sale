@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Open Sale — Yerli Elanlar</title>
-  <meta name="description" content="Open Sale: Mobil uyumlu elan platformu — giriş/ qeydiyyat, elan yerləşdirmə, axtarış/filtr, favoritlər və mesajlaşma (demo: localStorage)." />
+  <meta name="description" content="Open Sale: Mobil uyumlu elan platformu — giriş/qeydiyyat, elan yerləşdirmə, axtarış/filtr, favoritlər və mesajlaşma (demo: localStorage)." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -138,7 +138,7 @@
           <div style="margin-left:auto;color:var(--muted)" id="count"></div>
         </div>
         <div id="feed" class="grid" aria-live="polite"></div>
-        <div id="empty" style="display:none;color:var(--muted);padding:16px">Nəticə tapılmadı.</div>
+        <div id="empty" style="display:none;color:var(--muted);padding:16px">Hələ elan yoxdur. İlk elanı sən yerləşdir!</div>
       </section>
     </div>
 
@@ -160,8 +160,8 @@
           </div>
           <div style="height:10px"></div>
           <button id="favToggle" class="btn ghost" style="width:100%;margin-bottom:8px"><i class="fa-regular fa-heart"></i> Favorilərə əlavə et</button>
-          <button id="chatOpen" class="btn primary" style="width:100%"><i class="fa-regular fa-message"></i> Satıcıya yaz</button>
-          <div style="margin-top:8px;color:var(--muted);font-size:13px"><i class="fa-solid fa-phone"></i> Təhlükəsizlik üçün heç vaxt kart məlumatı vermə.</div>
+          <a id="callBtn" class="btn primary" style="width:100%;display:block;text-align:center"><i class="fa-solid fa-phone"></i> Zəng et</a>
+          <div style="margin-top:8px;color:var(--muted);font-size:13px"><i class="fa-solid fa-shield-halved"></i> Təhlükəsizlik üçün heç vaxt kart məlumatı vermə.</div>
         </div>
         <div class="card chat" id="chatBox" style="display:none">
           <div id="chatMsgs"></div>
@@ -204,7 +204,7 @@
       </form>
       <form id="regForm" style="display:none;gap:8px">
         <input name="name" placeholder="Ad Soyad" required>
-        <input name="email" type="email" placeholder="E-poçt" required>
+        <input name="email" type="email" placeholder="E-poçt (Gmail tövsiyə olunur)" required>
         <input name="pass" type="password" placeholder="Şifrə" required>
         <button class="btn primary" type="submit">Qeydiyyatdan keç</button>
       </form>
@@ -220,12 +220,13 @@
         <label>Başlıq<input name="title" required placeholder="Məs: iPhone 12 128GB"/></label>
         <label>Təsvir<textarea name="desc" rows="4" placeholder="Məhsul haqqında məlumat..."></textarea></label>
         <label>Qiymət (AZN)<input name="price" required inputmode="numeric"/></label>
+        <label>Əlaqə nömrəsi<input name="phone" required placeholder="0501234567"/></label>
         <label>Şəhər<select name="city"></select></label>
         <label>Kateqoriya<select name="cat"></select></label>
         <label>Vəziyyət<select name="cond"><option>Yeni</option><option>İşlənmiş</option></select></label>
-        <label>Şəkil URL (1)<input name="img1" placeholder="https://.../sekil.jpg"/></label>
-        <label>Şəkil URL (2)<input name="img2" placeholder="(istəyə bağlı)"/></label>
-        <label>Şəkil URL (3)<input name="img3" placeholder="(istəyə bağlı)"/></label>
+        <label>Şəkil seç (1-5 fayl)
+          <input name="images" type="file" accept="image/*" multiple />
+        </label>
         <button class="btn primary" type="submit"><i class="fa-solid fa-cloud-arrow-up"></i> Dərc et</button>
       </form>
     </div>
@@ -266,20 +267,13 @@
       {name:"Moda", icon:"fa-shirt"},
       {name:"Digər", icon:"fa-grid-2"}
     ]
-    const CITIES = ["Bakı","Gəncə","Sumqayıt","Şirvan","Lənkəran","Mingəçevir"]
 
-    // demo elanlar (ilk açılışda bir dəfə)
-    if(!DB.get('seeded_az', false)){
-      const seed = [
-        {id:1, uid:"u1", title:"iPhone 11 64GB", price:850, city:"Bakı", cond:"İşlənmiş", cat:"Telefonlar", date:Date.now()-3600e3, imgs:["https://picsum.photos/seed/os1/800/600"], desc:"Təmiz, karobkası var."},
-        {id:2, uid:"u2", title:"Gaming PC Ryzen", price:1400, city:"Gəncə", cond:"İşlənmiş", cat:"Kompüterlər", date:Date.now()-86400e3, imgs:["https://picsum.photos/seed/os2/800/600"], desc:"RTX videokart."},
-        {id:3, uid:"u3", title:"1+1 kirayə mənzil", price:500, city:"Sumqayıt", cond:"İşlənmiş", cat:"Daşınmaz əmlak", date:Date.now()-3*86400e3, imgs:["https://picsum.photos/seed/os3/800/600"], desc:"Mərkəzdə, əşyalı."},
-        {id:4, uid:"u4", title:"Volkswagen Golf", price:14500, city:"Şirvan", cond:"İşlənmiş", cat:"Avtomobillər", date:Date.now()-2*3600e3, imgs:["https://picsum.photos/seed/os4/800/600"], desc:"Baxımlı, problemsiz."},
-        {id:5, uid:"u1", title:"Ağıllı saat", price:70, city:"Bakı", cond:"Yeni", cat:"Telefonlar", date:Date.now()-2*86400e3, imgs:["https://picsum.photos/seed/os5/800/600"], desc:"Zəmanətli."}
-      ];
-      DB.set('items', seed); DB.set('users', [{id:'u1',name:'Əli',email:'ali@example.com',pass:'123456'},{id:'u2',name:'Aysu',email:'aysu@example.com',pass:'123456'},{id:'u3',name:'Mehdi',email:'mehdi@example.com',pass:'123456'},{id:'u4',name:'Ece',email:'ece@example.com',pass:'123456'}]);
-      DB.set('fav', {}); DB.set('msgs', {}); DB.set('seeded_az', true)
-    }
+    // Azərbaycanın bütün bölgələri (geniş siyahı)
+    const CITIES = [
+      "Bakı","Gəncə","Sumqayıt","Şirvan","Mingəçevir","Naftalan","Şəki","Lənkəran","Yevlax","Şuşa","Xankəndi","Xocalı","Xocavənd","Ağdam","Füzuli","Cəbrayıl","Qubadlı","Zəngilan","Laçın","Kəlbəcər","Tərtər","Bərdə","Goranboy","Samux","Göygöl","Daşkəsən","Tovuz","Şəmkir","Qazax","Ağstafa","Gədəbəy","Quba","Qusar","Xaçmaz","Şabran","Siyəzən","Xızı","Abşeron","Hacıqabul","Salyan","Neftçala","Biləsuvar","Cəlilabad","Masallı","Astara","Lerik","Yardımlı","Culfa","Ordubad","Babək","Şahbuz","Şərur","Naxçıvan","Qax","Zaqatala","Balakən","Oğuz","Qəbələ","İsmayıllı","Ağsu","Şamaxı","Göyçay","Ucar","Zərdab","Ağdaş","Kürdəmir","Sabirabad","Saatlı","İmişli","Ağcabədi","Beyləqan","Ağdam (rayon)","Füzuli (rayon)","Cəbrayıl (rayon)","Qubadlı (rayon)","Zəngilan (rayon)","Laçın (rayon)","Kəlbəcər (rayon)"
+    ]
+
+    // Heç bir demo elan YOXDUR — yalnız istifadəçi əlavə edəcək
 
     // vəziyyət
     const state = { q:'', cat:'', city:'', cond:'', min:'', max:'', onlyImg:false, sort:'new', me: DB.get('me', null), viewing:null }
@@ -299,6 +293,7 @@
     const loginForm = document.getElementById('loginForm'), regForm = document.getElementById('regForm')
 
     const detail = document.getElementById('detail'), gal = document.getElementById('gal'), dTitle = document.getElementById('dTitle'), dMeta = document.getElementById('dMeta'), dDesc = document.getElementById('dDesc'), dPrice = document.getElementById('dPrice'), favToggle = document.getElementById('favToggle'), chatOpen = document.getElementById('chatOpen'), chatBox = document.getElementById('chatBox'), chatMsgs = document.getElementById('chatMsgs'), chatInput = document.getElementById('chatInput'), chatSend = document.getElementById('chatSend')
+    const callBtn = document.getElementById('callBtn')
 
     document.getElementById('yil').textContent = new Date().getFullYear()
 
@@ -355,6 +350,7 @@
       gal.innerHTML = (x.imgs||[]).map((u,i)=>`<img src="${u}" alt="${x.title} ${i+1}" style="border-radius:12px;${i===0?'grid-column:1/3':''}">`).join('')
       dTitle.textContent=x.title; dMeta.textContent = `${x.city} • ${x.cond} • ${ago(x.date)} • Kateqoriya: ${x.cat}`; dDesc.textContent=x.desc||''; dPrice.textContent= money(x.price)+' AZN'
       const f = isFav(x.id); favToggle.innerHTML = (f? '<i class="fa-solid fa-heart"></i> Favorilərdə' : '<i class="fa-regular fa-heart"></i> Favorilərə əlavə et')
+      callBtn.href = x.phone ? `tel:${x.phone}` : '#';
       history.pushState({id:x.id}, '', '#elan-'+x.id)
       const onPop = ()=>{ detail.classList.remove('active'); document.querySelector('.layout').style.display='grid'; window.removeEventListener('popstate', onPop) }
       window.addEventListener('popstate', onPop)
@@ -395,7 +391,16 @@
       postBtn.onclick=()=>{ if(!state.me){ auth.classList.add('active'); notify('Elan yerləşdirmək üçün giriş et.'); return } post.classList.add('active') }
       pClose.onclick=()=> post.classList.remove('active')
       const citySel=postForm.elements['city'], catSel=postForm.elements['cat']; CITIES.forEach(c=>{ const o=document.createElement('option'); o.textContent=c; citySel.appendChild(o) }); CATS.forEach(c=>{ const o=document.createElement('option'); o.textContent=c.name; catSel.appendChild(o) })
-      postForm.onsubmit=(e)=>{ e.preventDefault(); const f=new FormData(postForm); const imgs=[f.get('img1'),f.get('img2'),f.get('img3')].filter(Boolean); const nextId = (Math.max(0,...getItems().map(i=>i.id))+1)||1; const x={ id:nextId, uid:state.me.id, title:f.get('title'), desc:f.get('desc')||'', price:+f.get('price')||0, city:f.get('city'), cond:f.get('cond'), cat:f.get('cat'), date:Date.now(), imgs }; setItems([x, ...getItems()]); postForm.reset(); post.classList.remove('active'); draw(); notify('Elan dərc olundu') }
+      
+      postForm.onsubmit= async (e)=>{ 
+        e.preventDefault(); 
+        const f=new FormData(postForm);
+        const files = [...postForm.elements['images'].files].slice(0,5);
+        const imgs = await filesToDataURLs(files);
+        const nextId = (Math.max(0,...getItems().map(i=>i.id))+1)||1; 
+        const x={ id:nextId, uid:state.me.id, title:f.get('title'), desc:f.get('desc')||'', price:+f.get('price')||0, city:f.get('city'), cond:f.get('cond'), cat:f.get('cat'), phone:f.get('phone'), date:Date.now(), imgs };
+        setItems([x, ...getItems()]); postForm.reset(); post.classList.remove('active'); draw(); notify('Elan dərc olundu') 
+      }
 
       // favorites & messages
       favBtn.onclick=()=>{ drawFavList(); favSheet.classList.add('active') }; favClose.onclick=()=> favSheet.classList.remove('active')
@@ -410,11 +415,15 @@
 
       // detail actions
       favToggle.onclick=()=>{ if(!state.viewing) return; toggleFav(state.viewing) }
-      chatOpen.onclick=()=>{ if(!state.me){ auth.classList.add('active'); return } chatBox.style.display='grid' }
-      chatSend.onclick=()=> sendChat(); chatInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); sendChat() } })
+      document.getElementById('chatOpen')?.addEventListener('click', ()=>{ if(!state.me){ auth.classList.add('active'); return } chatBox.style.display='grid' })
+      document.getElementById('chatSend')?.addEventListener('click', ()=> sendChat()); chatInput?.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); sendChat() } })
 
       // deep link
       if(location.hash.startsWith('#elan-')){ const id=+location.hash.split('-')[1]; openDetail(id) }
+    }
+
+    function filesToDataURLs(files){
+      return Promise.all(files.map(f=> new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(f) })))
     }
 
     function sendChat(){ const id=state.viewing; if(!id) return; const txt=chatInput.value.trim(); if(!txt) return; const msg={ at:Date.now(), uid:state.me.id, text:txt }; pushMsg(id, msg); chatInput.value=''; drawChat(); notify('Mesaj göndərildi') }
