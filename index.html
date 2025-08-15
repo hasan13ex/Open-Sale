@@ -1,58 +1,61 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="az">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Open Sale — Yerel İlanlar</title>
-  <meta name="description" content="Open Sale: Hızlı, mobil uyumlu ilan platformu — oturum, ilan verme, arama, filtre, favoriler ve mesaj kutusu (demo: localStorage)." />
+  <title>Open Sale — Yerli Elanlar</title>
+  <meta name="description" content="Open Sale: Mobil uyumlu elan platformu — giriş/ qeydiyyat, elan yerləşdirmə, axtarış/filtr, favoritlər və mesajlaşma (demo: localStorage)." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-h+4Jxv3rj3i8xwzfkVb3mHcH2oR1gH2j4w7m3yNf1v2cWkq0kz2sZC5v0QH5t2l9mGq6m5o8tYJ5b0XAnX3Yxw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     :root{
-      /* Özgün renk paleti */
-      --bg:#0d1220; --panel:#121833; --card:#151c3f; --line:#223060;
-      --text:#e7edf6; --muted:#9aabc4; --brand:#00d1b2; --brand2:#4f46e5; --accent:#22d3ee;
+      /* Yaşıl-ağ palitra (özgün) */
+      --bg:#0a1010; --panel:#0f1716; --card:#121c1b; --line:#1f2c2a;
+      --text:#e9f5f2; --muted:#a8c0bb; --brand:#19c37d; --brand2:#12a66a; --accent:#22d3a6;
       --ok:#10b981; --warn:#f59e0b; --danger:#ef4444;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:linear-gradient(180deg,#0b1020,#0f1532);color:var(--text);font:15.5px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    html,body{margin:0;padding:0;background:linear-gradient(180deg,#091010,#0d1615);color:var(--text);font:15.5px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
     .container{max-width:1160px;margin:0 auto;padding:14px}
 
     /* NAV */
-    header{position:sticky;top:0;z-index:40;background:rgba(13,18,32,.75);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line)}
+    header{position:sticky;top:0;z-index:40;background:rgba(10,16,16,.75);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line)}
     .nav{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:10px 0}
     .brand{display:flex;align-items:center;gap:10px;font-weight:800}
-    .badge{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center;color:#07131a;font-weight:900}
-    .search{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:rgba(21,28,63,.6)}
+    .badge{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center;color:#052018;font-weight:900}
+    .search{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:rgba(18,28,27,.6)}
     .search input{flex:1;background:transparent;border:0;outline:none;color:var(--text)}
     .actions{display:flex;gap:8px}
     .btn{border:0;border-radius:12px;padding:10px 12px;font-weight:700;cursor:pointer}
-    .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#091426}
+    .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#041712}
     .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
     .btn.icon{display:grid;place-items:center;padding:10px;min-width:44px}
 
     /* CHIPS */
     .chips{display:flex;gap:8px;overflow:auto;padding:10px 0}
-    .chip{white-space:nowrap;border:1px solid var(--line);padding:8px 12px;border-radius:999px;background:#12183a;color:var(--muted);cursor:pointer}
-    .chip.active{background:linear-gradient(135deg,rgba(0,209,178,.2),rgba(79,70,229,.2));color:#d8e5ff;border-color:#3950a0}
+    .chip{white-space:nowrap;border:1px solid var(--line);padding:8px 12px;border-radius:999px;background:#12211f;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:8px}
+    .chip i{opacity:.9}
+    .chip.active{background:linear-gradient(135deg,rgba(25,195,125,.22),rgba(18,166,106,.18));color:#eafff7;border-color:#2c6c59}
 
     /* LAYOUT */
     .layout{display:grid;grid-template-columns:272px 1fr;gap:16px}
     aside{position:sticky;top:82px;align-self:start}
-    .card{background:linear-gradient(180deg,rgba(21,28,63,.75),rgba(21,28,63,.45));border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .card{background:linear-gradient(180deg,rgba(18,28,27,.75),rgba(18,28,27,.45));border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
     .card h3{margin:0 0 8px;font-size:16px}
     label{display:block;font-size:13px;color:var(--muted);margin:8px 0 6px}
-    input,select,textarea{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#0f1638;color:var(--text)}
+    input,select,textarea{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#0f1a19;color:var(--text)}
     input:focus,select:focus,textarea:focus{outline:2px solid var(--accent)}
 
     /* FEED */
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .item{overflow:hidden;border-radius:16px;border:1px solid var(--line);background:#0e1536}
-    .thumb{aspect-ratio:4/3;background:#0b0f27;position:relative}
-    .price{position:absolute;left:8px;bottom:8px;background:rgba(13,18,32,.75);backdrop-filter:blur(6px);border:1px solid var(--line);padding:6px 9px;border-radius:10px;font-weight:800}
+    .item{overflow:hidden;border-radius:16px;border:1px solid var(--line);background:#0e1918}
+    .thumb{aspect-ratio:4/3;background:#0b1514;position:relative}
+    .price{position:absolute;left:8px;bottom:8px;background:rgba(10,16,16,.75);backdrop-filter:blur(6px);border:1px solid var(--line);padding:6px 9px;border-radius:10px;font-weight:800}
     .fav{position:absolute;right:8px;top:8px}
     .meta{padding:10px}
     .ttl{margin:0 0 6px;font-weight:800}
@@ -64,18 +67,18 @@
     .gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px}
     .chat{display:grid;gap:10px}
     .bubble{padding:10px 12px;border-radius:14px;max-width:80%}
-    .me{justify-self:end;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#07131a}
-    .other{justify-self:start;background:#0f1638;border:1px solid var(--line)}
+    .me{justify-self:end;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#041712}
+    .other{justify-self:start;background:#0f1a19;border:1px solid var(--line)}
 
-    /* SHEETS (mobil modaller) */
-    .sheet{position:fixed;inset:0;background:rgba(5,8,20,.6);display:none;align-items:flex-end;z-index:50}
+    /* SHEETS (mobil) */
+    .sheet{position:fixed;inset:0;background:rgba(5,10,10,.6);display:none;align-items:flex-end;z-index:50}
     .sheet.active{display:flex}
-    .panel{width:100%;max-width:520px;margin:0 auto;background:#0f1638;border-top-left-radius:16px;border-top-right-radius:16px;border:1px solid var(--line);padding:16px}
+    .panel{width:100%;max-width:520px;margin:0 auto;background:#0f1a19;border-top-left-radius:16px;border-top-right-radius:16px;border:1px solid var(--line);padding:16px}
 
     /* TABS */
     .tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin-bottom:8px}
     .tab{padding:8px 12px;border-radius:10px 10px 0 0;cursor:pointer;color:var(--muted)}
-    .tab.active{color:#0b1320;background:linear-gradient(135deg,var(--brand),var(--brand2))}
+    .tab.active{color:#041712;background:linear-gradient(135deg,var(--brand),var(--brand2))}
 
     footer{border-top:1px solid var(--line);margin-top:22px;color:var(--muted);font-size:13px}
 
@@ -88,15 +91,15 @@
     <div class="container nav">
       <a class="brand" href="#"><div class="badge">OS</div> Open Sale</a>
       <div class="search">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm10 2-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="q" placeholder="Ara: telefon, bilgisayar, daire..." />
-        <button id="fOpen" class="btn ghost">Filtreler</button>
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="q" placeholder="Axtar: telefon, kompüter, mənzil..." />
+        <button id="fOpen" class="btn ghost"><i class="fa-solid fa-sliders"></i> Filtrlər</button>
       </div>
       <div class="actions">
-        <button id="favBtn" class="btn icon ghost" title="Favoriler">♡</button>
-        <button id="msgBtn" class="btn icon ghost" title="Mesajlar">💬</button>
-        <button id="authBtn" class="btn ghost">Giriş / Kayıt</button>
-        <button id="postBtn" class="btn primary">İlan Ver</button>
+        <button id="favBtn" class="btn icon ghost" title="Favorilər"><i class="fa-regular fa-heart"></i></button>
+        <button id="msgBtn" class="btn icon ghost" title="Mesajlar"><i class="fa-regular fa-message"></i></button>
+        <button id="authBtn" class="btn ghost"><i class="fa-regular fa-user"></i> Giriş / Qeydiyyat</button>
+        <button id="postBtn" class="btn primary"><i class="fa-solid fa-plus"></i> Elan yerləşdir</button>
       </div>
     </div>
     <div class="container"><div class="chips" id="cats"></div></div>
@@ -106,36 +109,36 @@
     <div class="layout">
       <!-- ASIDE FILTERS -->
       <aside class="card">
-        <h3>Hızlı Filtre</h3>
-        <label>Şehir</label>
+        <h3>Tez filtr</h3>
+        <label>Şəhər</label>
         <select id="city"></select>
-        <label>Durum</label>
-        <select id="cond"><option value="">Tümü</option><option>Sıfır</option><option>İkinci El</option></select>
-        <label>Fiyat (₺)</label>
+        <label>Vəziyyət</label>
+        <select id="cond"><option value="">Hamısı</option><option>Yeni</option><option>İşlənmiş</option></select>
+        <label>Qiymət (AZN)</label>
         <div style="display:flex;gap:8px">
           <input id="min" placeholder="min" inputmode="numeric" />
           <input id="max" placeholder="max" inputmode="numeric" />
         </div>
         <div style="height:8px"></div>
-        <button id="apply" class="btn primary" style="width:100%">Uygula</button>
+        <button id="apply" class="btn primary" style="width:100%">Tətbiq et</button>
         <button id="reset" class="btn ghost" style="width:100%;margin-top:8px">Sıfırla</button>
         <div style="height:8px"></div>
-        <label><input type="checkbox" id="onlyImg" /> Yalnız görselli</label>
+        <label><input type="checkbox" id="onlyImg" /> Yalnız şəkilli</label>
       </aside>
 
       <!-- FEED & SORT -->
       <section>
         <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px">
-          <small style="color:var(--muted)">Sırala:</small>
+          <small style="color:var(--muted)">Sıralama:</small>
           <select id="sort">
-            <option value="new">En yeni</option>
-            <option value="cheap">En ucuz</option>
-            <option value="exp">En pahalı</option>
+            <option value="new">Ən yeni</option>
+            <option value="cheap">Ən ucuz</option>
+            <option value="exp">Ən bahalı</option>
           </select>
           <div style="margin-left:auto;color:var(--muted)" id="count"></div>
         </div>
         <div id="feed" class="grid" aria-live="polite"></div>
-        <div id="empty" style="display:none;color:var(--muted);padding:16px">Sonuç bulunamadı.</div>
+        <div id="empty" style="display:none;color:var(--muted);padding:16px">Nəticə tapılmadı.</div>
       </section>
     </div>
 
@@ -153,17 +156,18 @@
         <div class="card">
           <div style="display:flex;justify-content:space-between;align-items:center">
             <strong id="dPrice" style="font-size:22px"></strong>
-            <button class="btn ghost" onclick="history.back()">Geri</button>
+            <button class="btn ghost" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i> Geri</button>
           </div>
           <div style="height:10px"></div>
-          <button id="favToggle" class="btn ghost" style="width:100%;margin-bottom:8px">♡ Favorilere ekle</button>
-          <button id="chatOpen" class="btn primary" style="width:100%">Satıcıyla Mesajlaş</button>
+          <button id="favToggle" class="btn ghost" style="width:100%;margin-bottom:8px"><i class="fa-regular fa-heart"></i> Favorilərə əlavə et</button>
+          <button id="chatOpen" class="btn primary" style="width:100%"><i class="fa-regular fa-message"></i> Satıcıya yaz</button>
+          <div style="margin-top:8px;color:var(--muted);font-size:13px"><i class="fa-solid fa-phone"></i> Təhlükəsizlik üçün heç vaxt kart məlumatı vermə.</div>
         </div>
         <div class="card chat" id="chatBox" style="display:none">
           <div id="chatMsgs"></div>
           <div style="display:flex;gap:8px">
             <input id="chatInput" placeholder="Mesaj yaz..." />
-            <button id="chatSend" class="btn primary">Gönder</button>
+            <button id="chatSend" class="btn primary"><i class="fa-solid fa-paper-plane"></i> Göndər</button>
           </div>
         </div>
       </div>
@@ -174,55 +178,55 @@
   <!-- Mobile filters -->
   <div class="sheet" id="sheet">
     <div class="panel">
-      <div style="display:flex;justify-content:space-between;align-items:center"><strong>Filtreler</strong><button id="fClose" class="btn icon ghost">✕</button></div>
+      <div style="display:flex;justify-content:space-between;align-items:center"><strong>Filtrlər</strong><button id="fClose" class="btn icon ghost"><i class="fa-solid fa-xmark"></i></button></div>
       <div style="height:8px"></div>
-      <label>Kategori</label>
+      <label>Kateqoriya</label>
       <div id="mCats" class="chips"></div>
-      <label>Şehir</label>
+      <label>Şəhər</label>
       <select id="mCity"></select>
-      <label>Durum</label>
-      <select id="mCond"><option value="">Tümü</option><option>Sıfır</option><option>İkinci El</option></select>
-      <label>Fiyat Aralığı</label>
+      <label>Vəziyyət</label>
+      <select id="mCond"><option value="">Hamısı</option><option>Yeni</option><option>İşlənmiş</option></select>
+      <label>Qiymət aralığı</label>
       <div style="display:flex;gap:8px"><input id="mMin" placeholder="min" inputmode="numeric"/><input id="mMax" placeholder="max" inputmode="numeric"/></div>
       <div style="height:12px"></div>
-      <button id="mApply" class="btn primary" style="width:100%">Uygula</button>
+      <button id="mApply" class="btn primary" style="width:100%">Tətbiq et</button>
     </div>
   </div>
 
   <!-- Auth (login/register) -->
   <div class="sheet" id="auth">
     <div class="panel">
-      <div class="tabs"><div class="tab active" data-tab="login">Giriş</div><div class="tab" data-tab="register">Kayıt Ol</div></div>
+      <div class="tabs"><div class="tab active" data-tab="login"><i class="fa-regular fa-user"></i> Giriş</div><div class="tab" data-tab="register"><i class="fa-solid fa-user-plus"></i> Qeydiyyat</div></div>
       <form id="loginForm" style="display:grid;gap:8px">
-        <input name="email" type="email" placeholder="E-posta" required>
-        <input name="pass" type="password" placeholder="Şifre" required>
-        <button class="btn primary" type="submit">Giriş yap</button>
+        <input name="email" type="email" placeholder="E-poçt" required>
+        <input name="pass" type="password" placeholder="Şifrə" required>
+        <button class="btn primary" type="submit">Giriş et</button>
       </form>
       <form id="regForm" style="display:none;gap:8px">
         <input name="name" placeholder="Ad Soyad" required>
-        <input name="email" type="email" placeholder="E-posta" required>
-        <input name="pass" type="password" placeholder="Şifre" required>
-        <button class="btn primary" type="submit">Kayıt ol</button>
+        <input name="email" type="email" placeholder="E-poçt" required>
+        <input name="pass" type="password" placeholder="Şifrə" required>
+        <button class="btn primary" type="submit">Qeydiyyatdan keç</button>
       </form>
-      <button id="authClose" class="btn ghost" style="margin-top:8px">Kapat</button>
+      <button id="authClose" class="btn ghost" style="margin-top:8px">Bağla</button>
     </div>
   </div>
 
   <!-- Post Ad -->
   <div class="sheet" id="post">
     <div class="panel">
-      <div style="display:flex;justify-content:space-between;align-items:center"><strong>İlan Ver</strong><button id="pClose" class="btn icon ghost">✕</button></div>
+      <div style="display:flex;justify-content:space-between;align-items:center"><strong>Elan yerləşdir</strong><button id="pClose" class="btn icon ghost"><i class="fa-solid fa-xmark"></i></button></div>
       <form id="postForm" style="display:grid;gap:10px;margin-top:8px">
-        <label>Başlık<input name="title" required placeholder="Ör: iPhone 12 128GB"/></label>
-        <label>Açıklama<textarea name="desc" rows="4" placeholder="Ürün hakkında bilgi..."></textarea></label>
-        <label>Fiyat (₺)<input name="price" required inputmode="numeric"/></label>
-        <label>Şehir<select name="city"></select></label>
-        <label>Kategori<select name="cat"></select></label>
-        <label>Durum<select name="cond"><option>Sıfır</option><option>İkinci El</option></select></label>
-        <label>Görsel URL (1)<input name="img1" placeholder="https://.../resim.jpg"/></label>
-        <label>Görsel URL (2)<input name="img2" placeholder="(isteğe bağlı)"/></label>
-        <label>Görsel URL (3)<input name="img3" placeholder="(isteğe bağlı)"/></label>
-        <button class="btn primary" type="submit">Yayınla</button>
+        <label>Başlıq<input name="title" required placeholder="Məs: iPhone 12 128GB"/></label>
+        <label>Təsvir<textarea name="desc" rows="4" placeholder="Məhsul haqqında məlumat..."></textarea></label>
+        <label>Qiymət (AZN)<input name="price" required inputmode="numeric"/></label>
+        <label>Şəhər<select name="city"></select></label>
+        <label>Kateqoriya<select name="cat"></select></label>
+        <label>Vəziyyət<select name="cond"><option>Yeni</option><option>İşlənmiş</option></select></label>
+        <label>Şəkil URL (1)<input name="img1" placeholder="https://.../sekil.jpg"/></label>
+        <label>Şəkil URL (2)<input name="img2" placeholder="(istəyə bağlı)"/></label>
+        <label>Şəkil URL (3)<input name="img3" placeholder="(istəyə bağlı)"/></label>
+        <button class="btn primary" type="submit"><i class="fa-solid fa-cloud-arrow-up"></i> Dərc et</button>
       </form>
     </div>
   </div>
@@ -230,47 +234,57 @@
   <!-- Favorites / Messages Panels -->
   <div class="sheet" id="favSheet">
     <div class="panel">
-      <div style="display:flex;justify-content:space-between;align-items:center"><strong>Favoriler</strong><button id="favClose" class="btn icon ghost">✕</button></div>
+      <div style="display:flex;justify-content:space-between;align-items:center"><strong>Favorilər</strong><button id="favClose" class="btn icon ghost"><i class="fa-solid fa-xmark"></i></button></div>
       <div id="favList" style="display:grid;gap:10px;margin-top:8px"></div>
     </div>
   </div>
   <div class="sheet" id="msgSheet">
     <div class="panel">
-      <div style="display:flex;justify-content:space-between;align-items:center"><strong>Mesaj Kutusu</strong><button id="msgClose" class="btn icon ghost">✕</button></div>
+      <div style="display:flex;justify-content:space-between;align-items:center"><strong>Mesaj qutusu</strong><button id="msgClose" class="btn icon ghost"><i class="fa-solid fa-xmark"></i></button></div>
       <div id="threadList" style="display:grid;gap:10px;margin-top:8px"></div>
     </div>
   </div>
 
-  <footer class="container">© <span id="yil"></span> Open Sale — Topluluk için özgün ilan şablonu (demo: veriler tarayıcıda saklanır).</footer>
+  <footer class="container">© <span id="yil"></span> Open Sale — İcma üçün elan şablonu (demo: verilənlər brauzerdə saxlanılır).</footer>
 
   <script>
-    // --- Basit veri katmanı (localStorage) ---
+    // --- Sadə data qatı (localStorage) ---
     const DB = {
       get(key, def){ try{ return JSON.parse(localStorage.getItem(key)) ?? def } catch(e){ return def } },
       set(key, val){ localStorage.setItem(key, JSON.stringify(val)) },
       push(key, val){ const arr = DB.get(key, []); arr.push(val); DB.set(key, arr); return arr }
     }
 
-    const CATS = ["Telefon", "Bilgisayar", "Emlak", "Araba", "Ev Eşyası", "Spor", "Oyun", "Moda", "Diğer"]
-    const CITIES = ["İstanbul","Ankara","İzmir","Bursa","Antalya","Adana"]
+    const CATS = [
+      {name:"Telefonlar", icon:"fa-mobile-screen"},
+      {name:"Kompüterlər", icon:"fa-computer"},
+      {name:"Daşınmaz əmlak", icon:"fa-house"},
+      {name:"Avtomobillər", icon:"fa-car"},
+      {name:"Ev əşyaları", icon:"fa-couch"},
+      {name:"İdman", icon:"fa-dumbbell"},
+      {name:"Oyunlar", icon:"fa-gamepad"},
+      {name:"Moda", icon:"fa-shirt"},
+      {name:"Digər", icon:"fa-grid-2"}
+    ]
+    const CITIES = ["Bakı","Gəncə","Sumqayıt","Şirvan","Lənkəran","Mingəçevir"]
 
-    // demo ilanlar (ilk açılışta bir kez)
-    if(!DB.get('seeded', false)){
+    // demo elanlar (ilk açılışda bir dəfə)
+    if(!DB.get('seeded_az', false)){
       const seed = [
-        {id:1, uid:"u1", title:"iPhone 11 64GB", price:13500, city:"İstanbul", cond:"İkinci El", cat:"Telefon", date:Date.now()-3600e3, imgs:["https://picsum.photos/seed/os1/800/600"], desc:"Temiz, kutulu."},
-        {id:2, uid:"u2", title:"Oyun Bilgisayarı Ryzen", price:22000, city:"Ankara", cond:"İkinci El", cat:"Bilgisayar", date:Date.now()-86400e3, imgs:["https://picsum.photos/seed/os2/800/600"], desc:"RTX ekran kartlı."},
-        {id:3, uid:"u3", title:"1+1 Kiralık Daire", price:15000, city:"İzmir", cond:"İkinci El", cat:"Emlak", date:Date.now()-3*86400e3, imgs:["https://picsum.photos/seed/os3/800/600"], desc:"Merkezde, eşyalı."},
-        {id:4, uid:"u4", title:"Volkswagen Golf", price:650000, city:"Bursa", cond:"İkinci El", cat:"Araba", date:Date.now()-2*3600e3, imgs:["https://picsum.photos/seed/os4/800/600"], desc:"Tramersiz, bakımlı."},
-        {id:5, uid:"u1", title:"Akıllı Saat", price:1200, city:"İstanbul", cond:"Sıfır", cat:"Telefon", date:Date.now()-2*86400e3, imgs:["https://picsum.photos/seed/os5/800/600"], desc:"Garanti belgesi mevcut."}
+        {id:1, uid:"u1", title:"iPhone 11 64GB", price:850, city:"Bakı", cond:"İşlənmiş", cat:"Telefonlar", date:Date.now()-3600e3, imgs:["https://picsum.photos/seed/os1/800/600"], desc:"Təmiz, karobkası var."},
+        {id:2, uid:"u2", title:"Gaming PC Ryzen", price:1400, city:"Gəncə", cond:"İşlənmiş", cat:"Kompüterlər", date:Date.now()-86400e3, imgs:["https://picsum.photos/seed/os2/800/600"], desc:"RTX videokart."},
+        {id:3, uid:"u3", title:"1+1 kirayə mənzil", price:500, city:"Sumqayıt", cond:"İşlənmiş", cat:"Daşınmaz əmlak", date:Date.now()-3*86400e3, imgs:["https://picsum.photos/seed/os3/800/600"], desc:"Mərkəzdə, əşyalı."},
+        {id:4, uid:"u4", title:"Volkswagen Golf", price:14500, city:"Şirvan", cond:"İşlənmiş", cat:"Avtomobillər", date:Date.now()-2*3600e3, imgs:["https://picsum.photos/seed/os4/800/600"], desc:"Baxımlı, problemsiz."},
+        {id:5, uid:"u1", title:"Ağıllı saat", price:70, city:"Bakı", cond:"Yeni", cat:"Telefonlar", date:Date.now()-2*86400e3, imgs:["https://picsum.photos/seed/os5/800/600"], desc:"Zəmanətli."}
       ];
-      DB.set('items', seed); DB.set('users', [{id:'u1',name:'Ali',email:'ali@example.com',pass:'123456'},{id:'u2',name:'Ayşe',email:'ayse@example.com',pass:'123456'},{id:'u3',name:'Mehmet',email:'mehmet@example.com',pass:'123456'},{id:'u4',name:'Ece',email:'ece@example.com',pass:'123456'}]);
-      DB.set('fav', {}); DB.set('msgs', {}); DB.set('seeded', true)
+      DB.set('items', seed); DB.set('users', [{id:'u1',name:'Əli',email:'ali@example.com',pass:'123456'},{id:'u2',name:'Aysu',email:'aysu@example.com',pass:'123456'},{id:'u3',name:'Mehdi',email:'mehdi@example.com',pass:'123456'},{id:'u4',name:'Ece',email:'ece@example.com',pass:'123456'}]);
+      DB.set('fav', {}); DB.set('msgs', {}); DB.set('seeded_az', true)
     }
 
-    // state
+    // vəziyyət
     const state = { q:'', cat:'', city:'', cond:'', min:'', max:'', onlyImg:false, sort:'new', me: DB.get('me', null), viewing:null }
 
-    // elements
+    // elementlər
     const feed = document.getElementById('feed'), empty = document.getElementById('empty'), count = document.getElementById('count')
     const cats = document.getElementById('cats'), mCats = document.getElementById('mCats')
     const q = document.getElementById('q'), sort = document.getElementById('sort'), onlyImg = document.getElementById('onlyImg')
@@ -289,12 +303,21 @@
     document.getElementById('yil').textContent = new Date().getFullYear()
 
     // UI helpers
-    function renderChips(target, current){ target.innerHTML=''; CATS.forEach(c=>{ const b=document.createElement('button'); b.className='chip'+(current===c?' active':''); b.textContent=c; b.onclick=()=>{ state.cat=(state.cat===c?'':c); syncFilters(); draw() }; target.appendChild(b) }) }
-    function fillCities(){ const opts=['<option value="">Tümü</option>'].concat(CITIES.map(c=>`<option>${c}</option>`)).join(''); city.innerHTML=opts; mCity.innerHTML=opts }
+    function renderChips(target, current){
+      target.innerHTML='';
+      CATS.forEach(c=>{
+        const b=document.createElement('button');
+        b.className='chip'+(current===c.name?' active':'');
+        b.innerHTML=`<i class="fa-solid ${c.icon}"></i> ${c.name}`;
+        b.onclick=()=>{ state.cat=(state.cat===c.name?'':c.name); syncFilters(); draw() };
+        target.appendChild(b)
+      })
+    }
+    function fillCities(){ const opts=['<option value="">Hamısı</option>'].concat(CITIES.map(c=>`<option>${c}</option>`)).join(''); city.innerHTML=opts; mCity.innerHTML=opts }
     function syncFilters(){ city.value=state.city; cond.value=state.cond; min.value=state.min; max.value=state.max; onlyImg.checked=state.onlyImg; sort.value=state.sort; mCity.value=state.city; mCond.value=state.cond; mMin.value=state.min; mMax.value=state.max; renderChips(cats, state.cat); renderChips(mCats, state.cat) }
-    function ago(ts){ const s=Math.floor((Date.now()-ts)/1000); if(s<60) return 'Az önce'; const m=Math.floor(s/60); if(m<60) return m+' dk önce'; const h=Math.floor(m/60); if(h<24) return h+' sa önce'; const d=Math.floor(h/24); return d+' gün önce' }
-    function money(n){ return (n||0).toLocaleString('tr-TR') }
-    function notify(text){ const n=document.createElement('div'); n.textContent=text; n.style.cssText='position:fixed;left:50%;top:20px;transform:translateX(-50%);background:linear-gradient(135deg,var(--brand),var(--brand2));color:#06111a;padding:10px 14px;border-radius:12px;font-weight:800;z-index:70'; document.body.appendChild(n); setTimeout(()=>n.remove(),1600) }
+    function ago(ts){ const s=Math.floor((Date.now()-ts)/1000); if(s<60) return 'İndicə'; const m=Math.floor(s/60); if(m<60) return m+' dəq əvvəl'; const h=Math.floor(m/60); if(h<24) return h+' saat əvvəl'; const d=Math.floor(h/24); return d+' gün əvvəl' }
+    function money(n){ return (n||0).toLocaleString('az-Latn-AZ') }
+    function notify(text){ const n=document.createElement('div'); n.innerHTML=`<i class="fa-solid fa-check"></i> ${text}`; n.style.cssText='position:fixed;left:50%;top:20px;transform:translateX(-50%);background:linear-gradient(135deg,var(--brand),var(--brand2));color:#041712;padding:10px 14px;border-radius:12px;font-weight:800;z-index:70'; document.body.appendChild(n); setTimeout(()=>n.remove(),1600) }
 
     // FEED
     function getItems(){ return DB.get('items', []) }
@@ -311,15 +334,14 @@
       if(state.onlyImg) list=list.filter(x=> x.imgs && x.imgs.length)
       if(state.sort==='cheap') list.sort((a,b)=>a.price-b.price)
       if(state.sort==='exp') list.sort((a,b)=>b.price-a.price)
-      // default new: date desc
       if(state.sort==='new') list.sort((a,b)=>b.date-a.date)
-      feed.innerHTML=''; empty.style.display=list.length?'none':'block'; count.textContent=list.length+' ilan'; list.forEach(x=> feed.appendChild(card(x)))
+      feed.innerHTML=''; empty.style.display=list.length?'none':'block'; count.textContent=list.length+' elan'; list.forEach(x=> feed.appendChild(card(x)))
     }
 
     function card(x){
       const a=document.createElement('article'); a.className='item';
       const img = x.imgs && x.imgs[0] ? `<img src="${x.imgs[0]}" alt="${x.title}">` : ''
-      a.innerHTML=`<div class="thumb">${img}<div class="price">₺ ${money(x.price)}</div><button class="btn icon ghost fav" title="Favori">♡</button></div><div class="meta"><h4 class="ttl">${x.title}</h4><p class="sub">${x.city} • ${x.cond} • ${ago(x.date)}</p></div>`
+      a.innerHTML=`<div class="thumb">${img}<div class="price">${money(x.price)} AZN</div><button class="btn icon ghost fav" title="Favori"><i class="fa-regular fa-heart"></i></button></div><div class="meta"><h4 class="ttl">${x.title}</h4><p class="sub">${x.city} • ${x.cond} • ${ago(x.date)}</p></div>`
       a.querySelector('.fav').onclick = (e)=>{ e.stopPropagation(); toggleFav(x.id); }
       a.onclick=()=> openDetail(x.id)
       return a
@@ -331,31 +353,31 @@
       state.viewing=id
       document.querySelector('.layout').style.display='none'; detail.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'})
       gal.innerHTML = (x.imgs||[]).map((u,i)=>`<img src="${u}" alt="${x.title} ${i+1}" style="border-radius:12px;${i===0?'grid-column:1/3':''}">`).join('')
-      dTitle.textContent=x.title; dMeta.textContent = `${x.city} • ${x.cond} • ${ago(x.date)} • Kategori: ${x.cat}`; dDesc.textContent=x.desc||''; dPrice.textContent='₺ '+money(x.price)
-      const f = isFav(x.id); favToggle.textContent = f? '♥ Favorilerde' : '♡ Favorilere ekle'
-      history.pushState({id:x.id}, '', '#ilan-'+x.id)
+      dTitle.textContent=x.title; dMeta.textContent = `${x.city} • ${x.cond} • ${ago(x.date)} • Kateqoriya: ${x.cat}`; dDesc.textContent=x.desc||''; dPrice.textContent= money(x.price)+' AZN'
+      const f = isFav(x.id); favToggle.innerHTML = (f? '<i class="fa-solid fa-heart"></i> Favorilərdə' : '<i class="fa-regular fa-heart"></i> Favorilərə əlavə et')
+      history.pushState({id:x.id}, '', '#elan-'+x.id)
       const onPop = ()=>{ detail.classList.remove('active'); document.querySelector('.layout').style.display='grid'; window.removeEventListener('popstate', onPop) }
       window.addEventListener('popstate', onPop)
       chatBox.style.display='none'; drawChat()
     }
 
     // FAVORITES
-    function favKey(){ return state.me? `fav:${state.me.id}` : 'fav:guest' }
+    function favKey(){ return state.me? `fav:${state.me.id}` : 'fav:qonaq' }
     function getFav(){ return DB.get(favKey(), {}) }
     function setFav(v){ DB.set(favKey(), v) }
     function isFav(id){ return !!getFav()[id] }
-    function toggleFav(id){ const f=getFav(); if(f[id]) delete f[id]; else f[id]=true; setFav(f); notify(f[id]?'Favorilere eklendi':'Favoriden çıkarıldı'); const x=state.viewing; if(x){ const fav=isFav(x); favToggle.textContent=fav?'♥ Favorilerde':'♡ Favorilere ekle' } drawFavList() }
+    function toggleFav(id){ const f=getFav(); if(f[id]) delete f[id]; else f[id]=true; setFav(f); notify(f[id]?'Favorilərə əlavə olundu':'Favorilərdən silindi'); const x=state.viewing; if(x){ const fav=isFav(x); favToggle.innerHTML=fav?'<i class="fa-solid fa-heart"></i> Favorilərdə':'<i class="fa-regular fa-heart"></i> Favorilərə əlavə et' } drawFavList() }
 
-    function drawFavList(){ const f=getFav(); const all=getItems().filter(i=>f[i.id]); favList.innerHTML=''; if(!all.length){ favList.innerHTML='<div style="color:var(--muted)">Favori yok.</div>'; return } all.forEach(x=>{ const row=document.createElement('div'); row.className='card'; row.style.display='grid'; row.style.gridTemplateColumns='80px 1fr auto'; row.style.gap='10px'; row.innerHTML=`<img src="${(x.imgs||[])[0]||''}" style="width:80px;height:60px;object-fit:cover;border-radius:10px"><div><strong>${x.title}</strong><div class="sub">₺ ${money(x.price)} • ${x.city}</div></div><button class="btn ghost">Aç</button>`; row.querySelector('button').onclick=()=>{ favSheet.classList.remove('active'); openDetail(x.id) }; favList.appendChild(row) }) }
+    function drawFavList(){ const f=getFav(); const all=getItems().filter(i=>f[i.id]); favList.innerHTML=''; if(!all.length){ favList.innerHTML='<div style="color:var(--muted)">Favori yoxdur.</div>'; return } all.forEach(x=>{ const row=document.createElement('div'); row.className='card'; row.style.display='grid'; row.style.gridTemplateColumns='80px 1fr auto'; row.style.gap='10px'; row.innerHTML=`<img src="${(x.imgs||[])[0]||''}" style="width:80px;height:60px;object-fit:cover;border-radius:10px"><div><strong>${x.title}</strong><div class="sub">${money(x.price)} AZN • ${x.city}</div></div><button class="btn ghost"><i class="fa-solid fa-up-right-from-square"></i> Aç</button>`; row.querySelector('button').onclick=()=>{ favSheet.classList.remove('active'); openDetail(x.id) }; favList.appendChild(row) }) }
 
-    // CHAT (ilan sahibine)
+    // CHAT (elan sahibinə)
     function threadKey(adId){ return `msgs:${adId}` }
     function getThread(adId){ return DB.get(threadKey(adId), []) }
     function pushMsg(adId, msg){ const t=getThread(adId); t.push(msg); DB.set(threadKey(adId), t) }
     function drawChat(){ const id=state.viewing; if(!id) return; const t=getThread(id); chatMsgs.innerHTML=''; t.forEach(m=>{ const b=document.createElement('div'); b.className='bubble '+(m.uid===state.me?.id?'me':'other'); b.textContent=m.text; chatMsgs.appendChild(b) }); chatMsgs.scrollTop=chatMsgs.scrollHeight }
 
     // AUTH
-    function setMe(u){ state.me=u; DB.set('me', u); authBtn.textContent = u? (u.name.split(' ')[0]+ ' • Çıkış') : 'Giriş / Kayıt' }
+    function setMe(u){ state.me=u; DB.set('me', u); authBtn.innerHTML = u? (`<i class=\"fa-regular fa-user\"></i> ${u.name.split(' ')[0]} • Çıxış`) : '<i class="fa-regular fa-user"></i> Giriş / Qeydiyyat' }
 
     // INIT
     function init(){
@@ -365,26 +387,26 @@
       document.getElementById('apply').onclick=()=>{state.city=city.value; state.cond=cond.value; state.min=min.value; state.max=max.value; draw()} 
       document.getElementById('reset').onclick=()=>{ Object.assign(state,{q:'',cat:'',city:'',cond:'',min:'',max:'',onlyImg:false,sort:'new'}); q.value=''; syncFilters(); draw() }
 
-      // mobile filters
+      // mobil filtrlər
       document.getElementById('fOpen').onclick=()=> sheet.classList.add('active'); document.getElementById('fClose').onclick=()=> sheet.classList.remove('active');
       document.getElementById('mApply').onclick=()=>{ state.city=mCity.value; state.cond=mCond.value; state.min=mMin.value; state.max=mMax.value; sheet.classList.remove('active'); draw() }
 
-      // post
-      postBtn.onclick=()=>{ if(!state.me){ auth.classList.add('active'); notify('İlan vermek için giriş yap.'); return } post.classList.add('active') }
+      // elan yerləşdir
+      postBtn.onclick=()=>{ if(!state.me){ auth.classList.add('active'); notify('Elan yerləşdirmək üçün giriş et.'); return } post.classList.add('active') }
       pClose.onclick=()=> post.classList.remove('active')
-      const citySel=postForm.elements['city'], catSel=postForm.elements['cat']; CITIES.forEach(c=>{ const o=document.createElement('option'); o.textContent=c; citySel.appendChild(o) }); CATS.forEach(c=>{ const o=document.createElement('option'); o.textContent=c; catSel.appendChild(o) })
-      postForm.onsubmit=(e)=>{ e.preventDefault(); const f=new FormData(postForm); const imgs=[f.get('img1'),f.get('img2'),f.get('img3')].filter(Boolean); const nextId = (Math.max(0,...getItems().map(i=>i.id))+1)||1; const x={ id:nextId, uid:state.me.id, title:f.get('title'), desc:f.get('desc')||'', price:+f.get('price')||0, city:f.get('city'), cond:f.get('cond'), cat:f.get('cat'), date:Date.now(), imgs }; setItems([x, ...getItems()]); post.reset(); post.classList.remove('active'); draw(); notify('İlan yayınlandı') }
+      const citySel=postForm.elements['city'], catSel=postForm.elements['cat']; CITIES.forEach(c=>{ const o=document.createElement('option'); o.textContent=c; citySel.appendChild(o) }); CATS.forEach(c=>{ const o=document.createElement('option'); o.textContent=c.name; catSel.appendChild(o) })
+      postForm.onsubmit=(e)=>{ e.preventDefault(); const f=new FormData(postForm); const imgs=[f.get('img1'),f.get('img2'),f.get('img3')].filter(Boolean); const nextId = (Math.max(0,...getItems().map(i=>i.id))+1)||1; const x={ id:nextId, uid:state.me.id, title:f.get('title'), desc:f.get('desc')||'', price:+f.get('price')||0, city:f.get('city'), cond:f.get('cond'), cat:f.get('cat'), date:Date.now(), imgs }; setItems([x, ...getItems()]); postForm.reset(); post.classList.remove('active'); draw(); notify('Elan dərc olundu') }
 
-      // favorites & messages buttons
+      // favorites & messages
       favBtn.onclick=()=>{ drawFavList(); favSheet.classList.add('active') }; favClose.onclick=()=> favSheet.classList.remove('active')
       msgBtn.onclick=()=>{ drawThreads(); msgSheet.classList.add('active') }; msgClose.onclick=()=> msgSheet.classList.remove('active')
 
       // auth
-      authBtn.onclick=()=>{ if(state.me){ setMe(null); notify('Çıkış yapıldı'); return } auth.classList.add('active') }
+      authBtn.onclick=()=>{ if(state.me){ setMe(null); notify('Çıxış edildi'); return } auth.classList.add('active') }
       authClose.onclick=()=> auth.classList.remove('active')
       document.querySelectorAll('.tab').forEach(t=> t.onclick=()=>{ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active'); const k=t.dataset.tab; loginForm.style.display = (k==='login')?'grid':'none'; regForm.style.display = (k==='register')?'grid':'none' })
-      loginForm.onsubmit =(e)=>{ e.preventDefault(); const f=new FormData(loginForm); const email=f.get('email'), pass=f.get('pass'); const u=DB.get('users', []).find(x=>x.email===email && x.pass===pass); if(u){ setMe(u); auth.classList.remove('active'); notify('Hoş geldin '+u.name.split(' ')[0]) } else notify('Bilgiler hatalı') }
-      regForm.onsubmit =(e)=>{ e.preventDefault(); const f=new FormData(regForm); const u={ id:'u'+Date.now(), name:f.get('name'), email:f.get('email'), pass:f.get('pass') }; const users=DB.get('users',[]); if(users.find(x=>x.email===u.email)) return notify('Bu e-posta kayıtlı'); users.push(u); DB.set('users', users); setMe(u); auth.classList.remove('active'); notify('Kayıt tamam') }
+      loginForm.onsubmit =(e)=>{ e.preventDefault(); const f=new FormData(loginForm); const email=f.get('email'), pass=f.get('pass'); const u=DB.get('users', []).find(x=>x.email===email && x.pass===pass); if(u){ setMe(u); auth.classList.remove('active'); notify('Xoş gəldin '+u.name.split(' ')[0]) } else notify('Məlumatlar yalnışdır') }
+      regForm.onsubmit =(e)=>{ e.preventDefault(); const f=new FormData(regForm); const u={ id:'u'+Date.now(), name:f.get('name'), email:f.get('email'), pass:f.get('pass') }; const users=DB.get('users',[]); if(users.find(x=>x.email===u.email)) return notify('Bu e-poçt artıq qeydiyyatdadır'); users.push(u); DB.set('users', users); setMe(u); auth.classList.remove('active'); notify('Qeydiyyat tamamlandı') }
 
       // detail actions
       favToggle.onclick=()=>{ if(!state.viewing) return; toggleFav(state.viewing) }
@@ -392,15 +414,15 @@
       chatSend.onclick=()=> sendChat(); chatInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); sendChat() } })
 
       // deep link
-      if(location.hash.startsWith('#ilan-')){ const id=+location.hash.split('-')[1]; openDetail(id) }
+      if(location.hash.startsWith('#elan-')){ const id=+location.hash.split('-')[1]; openDetail(id) }
     }
 
-    function sendChat(){ const id=state.viewing; if(!id) return; const txt=chatInput.value.trim(); if(!txt) return; const msg={ at:Date.now(), uid:state.me.id, text:txt }; pushMsg(id, msg); chatInput.value=''; drawChat(); notify('Mesaj gönderildi') }
+    function sendChat(){ const id=state.viewing; if(!id) return; const txt=chatInput.value.trim(); if(!txt) return; const msg={ at:Date.now(), uid:state.me.id, text:txt }; pushMsg(id, msg); chatInput.value=''; drawChat(); notify('Mesaj göndərildi') }
 
-    // Mesajlar listesi (thread başlıkları)
-    function drawThreads(){ const items=getItems(); const threads=[]; items.forEach(ad=>{ const t=getThread(ad.id); if(t.length){ threads.push({ad, last:t[t.length-1]}) } }); threadList.innerHTML=''; if(!threads.length){ threadList.innerHTML='<div style="color:var(--muted)">Mesaj yok.</div>'; return } threads.sort((a,b)=>b.last.at-a.last.at); threads.forEach(row=>{ const div=document.createElement('div'); div.className='card'; div.style.display='grid'; div.style.gridTemplateColumns='80px 1fr auto'; div.style.gap='10px'; div.innerHTML=`<img src="${(row.ad.imgs||[])[0]||''}" style="width:80px;height:60px;object-fit:cover;border-radius:10px"><div><strong>${row.ad.title}</strong><div class="sub">${new Date(row.last.at).toLocaleString()}</div><div class="sub">${row.last.text}</div></div><button class="btn ghost">Aç</button>`; div.querySelector('button').onclick=()=>{ msgSheet.classList.remove('active'); openDetail(row.ad.id); chatBox.style.display='grid' }; threadList.appendChild(div) }) }
+    // Mesaj siyahısı (thread başlıqları)
+    function drawThreads(){ const items=getItems(); const threads=[]; items.forEach(ad=>{ const t=getThread(ad.id); if(t.length){ threads.push({ad, last:t[t.length-1]}) } }); threadList.innerHTML=''; if(!threads.length){ threadList.innerHTML='<div style="color:var(--muted)">Mesaj yoxdur.</div>'; return } threads.sort((a,b)=>b.last.at-a.last.at); threads.forEach(row=>{ const div=document.createElement('div'); div.className='card'; div.style.display='grid'; div.style.gridTemplateColumns='80px 1fr auto'; div.style.gap='10px'; div.innerHTML=`<img src="${(row.ad.imgs||[])[0]||''}" style="width:80px;height:60px;object-fit:cover;border-radius:10px"><div><strong>${row.ad.title}</strong><div class="sub">${new Date(row.last.at).toLocaleString()}</div><div class="sub">${row.last.text}</div></div><button class="btn ghost"><i class="fa-solid fa-up-right-from-square"></i> Aç</button>`; div.querySelector('button').onclick=()=>{ msgSheet.classList.remove('active'); openDetail(row.ad.id); chatBox.style.display='grid' }; threadList.appendChild(div) }) }
 
-    // boot
+    // start
     init()
   </script>
 </body>
